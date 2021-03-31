@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "Ticket List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="content-header">
+    <h1>
+        Ticket List
+    </h1>
+    <ol class="breadcrumb">
+        <li><a asp-controller="dashboard" asp-action="index"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Ticket List</a></li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+
+            @if (ViewBag.msg != null)
+            {
+                if (ViewBag.msg == "Done")
+                {
+                    <div class="callout callout-success">
+                        <h4>Successful</h4>
+                    </div>
+                }
+                else
+                {
+                    <div class="callout callout-danger">
+                        <h4>Failed</h4>
+                    </div>
+                }
+            }
+
+            <div class="box">
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Title</th>
+                                <th>Employee Name</th>
+                                <th>Supporter Name</th>
+                                <th>Period</th>
+                                <th>Status</th>
+                                <th>Category</th>
+                                <th>Created At</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ticket in ViewBag.tickets)
+                            {
+                            <tr>
+                                <td>#@ticket.TicketId</td>
+                                <td>@ticket.Title</td>
+                                <td>@ticket.Employee.FullName</td>
+                                <td>@(ticket.Supporter != null ? ticket.Supporter.FullName : "")</td>
+                                <td><span class="label label-@ticket.Period.Color">@ticket.Period.Name</span></td>
+                                <td><span class="label label-@ticket.Status.Color">@ticket.Status.Name</span></td>
+                                <td>@ticket.Category.Name</td>
+                                <td>@ticket.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    <a asp-controller="ticket" asp-action="details" asp-route-id="@ticket.TicketId">Details</a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Number</th>
+                                <th>Title</th>
+                                <th>Employee Name</th>
+                                <th>Supporter Name</th>
+                                <th>Period</th>
+                                <th>Status</th>
+                                <th>Category</th>
+                                <th>Created At</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(function () {
+        $('#example2').DataTable({
+            'paging': true,
+            'autoWidth': false
+        })
+    })
+</script>

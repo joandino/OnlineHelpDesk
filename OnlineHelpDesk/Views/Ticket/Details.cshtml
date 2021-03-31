@@ -1,0 +1,150 @@
+﻿@{
+    ViewData["Title"] = "Ticket Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="content-header">
+    <h1>
+        Ticket Details
+    </h1>
+    <ol class="breadcrumb">
+        <li><a asp-controller="dashboard" asp-action="index"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Ticket Details</a></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="invoice">
+    <form method="post" asp-controller="ticket" asp-action="assign">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>
+                    @ViewBag.ticket.Title
+                </h2>
+                <p>@ViewBag.ticket.Description</p>
+                @if (ViewBag.ticket.Photos != null)
+                {
+                    <ul style="list-style-type: none">
+                        @foreach (var photo in ViewBag.ticket.Photos)
+                        {
+                            <li style="float: left;padding-left: 10px;">
+                                <img src="~/uploads/@photo.Name" width="250" height="250" />
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info" style="padding-top: 20px;">
+
+            <div class="col-sm-4 invoice-col">
+                <b>Ticket Id #@ViewBag.ticket.TicketId</b><br>
+                <b>Created Date:</b> @ViewBag.ticket.CreatedDate.ToString("dd/MM/yyyy")<br>
+                @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrator") || User.IsInRole("Support")))
+                {
+                    <select name="statusId">
+                        @foreach (var status in ViewBag.statuses)
+                        {
+                            <option value="@status.StatusId" selected="@(ViewBag.ticket.StatusId == status.StatusId ? "selected" : null)">@status.Name</option>
+                        }
+                    </select>
+                }
+            </div>
+
+            <div class="col-sm-4 invoice-col">
+                Created By:
+                <address>
+                    <strong>@ViewBag.ticket.Employee.FullName</strong><br>
+                    <b>Employee Id: </b> @ViewBag.ticket.Employee.AccountId<br>
+                    <b>User Name: </b> @ViewBag.ticket.Employee.Username<br>
+                    <b>Email: </b> @ViewBag.ticket.Employee.Email
+                </address>
+            </div>
+
+            <div class="col-sm-4 invoice-col">
+                Assigned To:
+                <address>
+                    @if (ViewBag.ticket.Supporter != null)
+                    {
+                        <strong>@(ViewBag.ticket.Supporter != null ? ViewBag.ticket.Supporter.FullName : "")</strong><br>
+                        <b>Supporter Id: </b> @(ViewBag.ticket.Supporter != null ? ViewBag.ticket.Supporter.AccountId : "")<br>
+                        <b>User Name: </b>@(ViewBag.ticket.Supporter != null ? ViewBag.ticket.Supporter.Username : "")<br>
+                        <b>Email: </b>@(ViewBag.ticket.Supporter != null ? ViewBag.ticket.Supporter.Email : "")
+                    }
+                    else
+                    {
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrator") || User.IsInRole("Support")))
+                        {
+                            <select name="supporterId">
+                                @foreach (var supporter in ViewBag.supporters)
+                                {
+                                    <option value="@supporter.AccountId">@supporter.FullName</option>
+                                }
+                            </select>
+                        }
+                    }
+                </address>
+            </div>
+        </div>
+
+        @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrator") || User.IsInRole("Support")))
+        {
+            <div class="row no-print">
+                <div class="col-xs-12">
+
+                    <button type="submit" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                        <i class="fa fa-pencil"></i> Update
+                    </button>
+                </div>
+            </div>
+        }
+        <input type="hidden" name="id" value="@ViewBag.ticket.TicketId" />
+    </form>
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- DIRECT CHAT -->
+            <div class="box box-warning direct-chat direct-chat-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Ticket Discussion</h3>
+
+                </div>
+                <div class="box-body">
+                    <div class="direct-chat-messages">
+
+                        @if (ViewBag.discussions != null)
+                        {
+                            @foreach (var discussion in ViewBag.discussions)
+                            {
+                                <div class="direct-chat-msg @(discussion.Account.RoleId == 2 ? "right" : "")">
+                                    <div class="direct-chat-info clearfix">
+                                        <span class="direct-chat-name @(discussion.Account.RoleId == 2 ? "pull-right" : "pull-left")">@discussion.Account.FullName</span>
+                                        <span class="direct-chat-timestamp @(discussion.Account.RoleId == 2 ? "pull-right" : "pull-left")"> @discussion.CreatedDate.ToString("dd/MM/yyyy")</span>
+                                    </div>
+                                    <div class="direct-chat-text">
+                                        @discussion.Content
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <form asp-controller="ticket" asp-action="send_discussion" method="post">
+                        <div class="input-group">
+                            <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-warning btn-flat">Send</button>
+                            </span>
+                        </div>
+                        <input type="hidden" name="ticketId" value="@ViewBag.ticket.TicketId" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

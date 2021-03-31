@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Dashboard
+        <small>Version 2.0</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+    {
+        <div class="row">
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="ion ion-ios-paper"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Tickets</span>
+                        <span class="info-box-number">@ViewBag.totalTickets.Count</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="ion ion-ios-close-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Cancelled or Declined Tickets</span>
+                        <span class="info-box-number">@ViewBag.redTickets.Count</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix visible-sm-block"></div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="ion ion-ios-checkmark-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Finished Tickets</span>
+                        <span class="info-box-number">@ViewBag.finishedTickets.Count</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Users</span>
+                        <span class="info-box-number">@ViewBag.totalUsers.Count</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Employee"))
+    {
+        <div class="row">
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="ion ion-ios-paper"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Ticket Send</span>
+                        <span class="info-box-number">@ViewBag.tickets.Count</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</section>
