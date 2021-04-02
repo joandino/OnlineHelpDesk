@@ -111,6 +111,7 @@
                         ViewBag.period = "treeview";
                         ViewBag.status = "treeview";
                         ViewBag.ticket = "treeview";
+                        ViewBag.subcategory = "treeview";
                         break;
                     case "category":
                         ViewBag.account = "treeview";
@@ -118,6 +119,7 @@
                         ViewBag.period = "treeview";
                         ViewBag.status = "treeview";
                         ViewBag.ticket = "treeview";
+                        ViewBag.subcategory = "treeview";
                         break;
                     case "period":
                         ViewBag.account = "treeview";
@@ -125,6 +127,7 @@
                         ViewBag.period = "active treeview menu-open";
                         ViewBag.status = "treeview";
                         ViewBag.ticket = "treeview";
+                        ViewBag.subcategory = "treeview";
                         break;
                     case "status":
                         ViewBag.account = "treeview";
@@ -132,6 +135,7 @@
                         ViewBag.period = "treeview";
                         ViewBag.status = "active treeview menu-open";
                         ViewBag.ticket = "treeview";
+                        ViewBag.subcategory = "treeview";
                         break;
                     case "ticket":
                         ViewBag.account = "treeview";
@@ -139,6 +143,15 @@
                         ViewBag.period = "treeview";
                         ViewBag.status = "treeview";
                         ViewBag.ticket = "active treeview menu-open";
+                        ViewBag.subcategory = "treeview";
+                        break;
+                    case "subcategory":
+                        ViewBag.account = "treeview";
+                        ViewBag.category = "treeview";
+                        ViewBag.period = "treeview";
+                        ViewBag.status = "treeview";
+                        ViewBag.ticket = "treeview";
+                        ViewBag.subcategory = "active treeview menu-open";
                         break;
                     default:
                         break;
@@ -196,6 +209,20 @@
                             <ul class="treeview-menu">
                                 <li><a asp-controller="category" asp-action="index"><i class="fa fa-list"></i> List</a></li>
                                 <li class="active"><a asp-controller="category" asp-action="add"><i class="fa fa-plus-square"></i> Add</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="@ViewBag.subcategory">
+                            <a href="#">
+                                <i class="fa fa-bars"></i>
+                                <span>Sub Category</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a asp-controller="subcategory" asp-action="index"><i class="fa fa-list"></i> List</a></li>
+                                <li class="active"><a asp-controller="subcategory" asp-action="add"><i class="fa fa-plus-square"></i> Add</a></li>
                             </ul>
                         </li>
 

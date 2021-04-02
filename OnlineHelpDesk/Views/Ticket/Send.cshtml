@@ -50,21 +50,27 @@
                             <textarea class="form-control" asp-for="Ticket.Description"></textarea>
                         </div>
 
+                        @*<div class="form-group">
+                                <label>Status</label>
+                                <select class="form-control" asp-for="Ticket.StatusId" asp-items="@Model.Statuses">
+                                </select>
+                            </div>*@
+
                         <div class="form-group">
-                            <label>Status</label>
-                            <select class="form-control" asp-for="Ticket.StatusId" asp-items="@Model.Statuses">
+                            <label>Category</label>
+                            <select class="form-control" id="categoryId" asp-for="Ticket.CategoryId" asp-items="@Model.Categories" required="required">
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label>Category</label>
-                            <select class="form-control" asp-for="Ticket.CategoryId" asp-items="@Model.Categories">
+                            <label>Sub Category</label>
+                            <select class="form-control" id="selectSubCategroy" asp-for="Ticket.SubCategoryId" asp-items="@ViewBag.subCategories" required>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label>Period</label>
-                            <select class="form-control" asp-for="Ticket.PeriodId" asp-items="@Model.Periods">
+                            <select class="form-control" asp-for="Ticket.PeriodId" asp-items="@Model.Periods" required>
                             </select>
                         </div>
 
@@ -78,6 +84,10 @@
                             <input type="hidden" class="form-control" id="id" asp-for="Ticket.TicketId">
                         </div>
 
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" asp-for="Ticket.StatusId" value="1">
+                        </div>
+
                     </div>
 
                     <div class="box-footer">
@@ -89,3 +99,32 @@
         </div>
     </div>
 </section>
+
+<script>
+    $(document).ready(function () {
+        $(document).on("change", "#categoryId", function () {
+            var categoryId = $('#categoryId').val();
+            $.ajax({
+                url: "FillSubCategories",
+                type: "GET",
+                data: { categoryId: categoryId },
+                contentType: "application/json; charset=utf-8",
+                datatype: JSON,
+                success: function (result) {
+                    console.log(result);
+                    var categories = "";
+                    $(result.subCategories).each(function () {
+                        categories = categories + '<option value="' + this.value + '">' + this.text + '</option>'
+                    });
+
+                    var subCateList = $("#selectSubCategroy");
+                    subCateList.empty();
+                    subCateList.append(categories);
+                },
+                error: function (data) {
+                    return "Error";
+                }
+            });
+        });
+    });
+</script>

@@ -174,6 +174,7 @@ namespace OnlineHelpDesk.Controllers
                 ViewBag.msg = "Failed";
             }
 
+            ViewBag.sideBar = "account";
             ViewBag.accounts = GetAllAccounts();
             return View("Index");
         }
@@ -410,7 +411,7 @@ namespace OnlineHelpDesk.Controllers
                     }
                 }
 
-                if (user != null)
+                if (user != null && !string.IsNullOrEmpty(user.Username))
                 {
                     var hashedPass = BCrypt.Net.BCrypt.HashPassword(password);
 

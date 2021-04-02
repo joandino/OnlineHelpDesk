@@ -46,6 +46,7 @@
                                 <th>Period</th>
                                 <th>Status</th>
                                 <th>Category</th>
+                                <th>Sub Category</th>
                                 <th>Created At</th>
                                 <th>Action</th>
                             </tr>
@@ -61,6 +62,7 @@
                                 <td><span class="label label-@ticket.Period.Color">@ticket.Period.Name</span></td>
                                 <td><span class="label label-@ticket.Status.Color">@ticket.Status.Name</span></td>
                                 <td>@ticket.Category.Name</td>
+                                <td>@ticket.SubCategory.Name</td>
                                 <td>@ticket.CreatedDate.ToString("dd/MM/yyyy")</td>
                                 <td>
                                     <a asp-controller="ticket" asp-action="details" asp-route-id="@ticket.TicketId">Details</a>
@@ -77,6 +79,7 @@
                                 <th>Period</th>
                                 <th>Status</th>
                                 <th>Category</th>
+                                <th>Sub Category</th>
                                 <th>Created At</th>
                                 <th>Action</th>
                             </tr>

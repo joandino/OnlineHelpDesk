@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Edit Sub Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model OnlineHelpDesk.Models.ViewModels.SubCategoryViewModel
+
+<section class="content-header">
+    <h1>
+        Edit Sub Category
+    </h1>
+    <ol class="breadcrumb">
+        <li><a asp-controller="dashboard" asp-action="add"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Edit Sub Category</a></li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+
+            @if (ViewBag.msg != null)
+            {
+                if (ViewBag.msg == "Done")
+                {
+                    <div class="callout callout-success">
+                        <h4>Successful</h4>
+                    </div>
+                }
+                else
+                {
+                    <div class="callout callout-danger">
+                        <h4>Failed</h4>
+                    </div>
+                }
+            }
+
+            <div class="box box-primary">
+
+                <form asp-controller="subcategory" asp-action="edit" method="post">
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            <label for="fullname">Name</label>
+                            <input type="text" class="form-control" id="fullname" required="required" asp-for="SubCategory.Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select class="form-control" asp-for="SubCategory.CategoryId" asp-items="@Model.Categories">
+                            </select>
+                        </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" asp-for="SubCategory.Status"> Status
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" asp-for="SubCategory.SubCategoryId">
+                        </div>
+
+                    </div>
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>

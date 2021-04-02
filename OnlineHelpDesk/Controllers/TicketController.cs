@@ -142,14 +142,15 @@ namespace OnlineHelpDesk.Controllers
         {
             var ticket = GetTicketById(id);
 
-            if(ticket.SupporterId == 0 || ticket.SupporterId == null)
+            if (ticket.SupporterId == 0 || ticket.SupporterId == null)
             {
                 ticket.SupporterId = supporterId;
-            }else if(ticket.StatusId != statusId)
+            }
+            else if (ticket.StatusId != statusId)
             {
                 ticket.StatusId = statusId;
             }
-            
+
             UpdateTicket(ticket);
 
             ViewBag.tickets = GetTicketsWithNoSupporter();
@@ -209,20 +210,33 @@ namespace OnlineHelpDesk.Controllers
         }
         #endregion
 
+        #region FillSubCategories
+        [Route("FillSubCategories")]
+        [HttpGet]
+        public JsonResult FillSubCategories(int categoryId)
+        {
+            var ticketViewModel = new TicketViewModel();
+            ViewBag.subCategories = SubCategoryController.GetSubCategoriesByCategoryId(categoryId);
+            ticketViewModel.SubCategories = new SelectList(ViewBag.subcategories, "SubCategoryId", "Name");
+            return Json(ticketViewModel);
+        }
+        #endregion
+
         #region Methods
         public static bool InsertTicket(Ticket _ticket)
         {
             using (MySqlConnection connection = HelpDeskEntities.GetConnection())
             {
                 connection.Open();
-                MySqlCommand command = new MySqlCommand(@"insert into ticket(Title, Description, CreatedDate, StatusId, CategoryId, PeriodId, EmployeeId)
-                                                            values(@title, @description, @createdDate, @statusId, @categoryId, @periodId, @employeeId)", connection);
+                MySqlCommand command = new MySqlCommand(@"insert into ticket(Title, Description, CreatedDate, StatusId, CategoryId, SubCategoryId, PeriodId, EmployeeId)
+                                                            values(@title, @description, @createdDate, @statusId, @categoryId, @subCategoryId, @periodId, @employeeId)", connection);
 
                 command.Parameters.AddWithValue("@title", _ticket.Title);
                 command.Parameters.AddWithValue("@description", _ticket.Description);
                 command.Parameters.AddWithValue("@createdDate", DateTime.Now);
                 command.Parameters.AddWithValue("@statusId", _ticket.StatusId);
                 command.Parameters.AddWithValue("@categoryId", _ticket.CategoryId);
+                command.Parameters.AddWithValue("@subCategoryId", _ticket.SubCategoryId);
                 command.Parameters.AddWithValue("@periodId", _ticket.PeriodId);
                 command.Parameters.AddWithValue("@employeeId", _ticket.EmployeeId);
 
@@ -258,6 +272,7 @@ namespace OnlineHelpDesk.Controllers
                         ticket.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
                         ticket.StatusId = Convert.ToInt32(reader["StatusId"]);
                         ticket.CategoryId = Convert.ToInt32(reader["CategoryId"]);
+                        ticket.SubCategoryId = Convert.ToInt32(reader["SubCategoryId"]);
                         ticket.PeriodId = Convert.ToInt32(reader["PeriodId"]);
                         ticket.EmployeeId = Convert.ToInt32(reader["EmployeeId"]);
                     }
@@ -301,6 +316,10 @@ namespace OnlineHelpDesk.Controllers
                         ticket.CategoryId = Convert.ToInt32(reader["CategoryId"]);
                         var category = CategoryController.GetCategoryById(ticket.CategoryId);
                         ticket.Category = category;
+
+                        ticket.SubCategoryId = Convert.ToInt32(reader["SubCategoryId"]);
+                        var subCategory = SubCategoryController.GetSubCategoryById(ticket.SubCategoryId);
+                        ticket.SubCategory = subCategory;
 
                         ticket.PeriodId = Convert.ToInt32(reader["PeriodId"]);
                         var period = PeriodController.GetPeriodById(ticket.PeriodId);
@@ -350,6 +369,10 @@ namespace OnlineHelpDesk.Controllers
                         ticket.CategoryId = Convert.ToInt32(reader["CategoryId"]);
                         var category = CategoryController.GetCategoryById(ticket.CategoryId);
                         ticket.Category = category;
+
+                        ticket.SubCategoryId = Convert.ToInt32(reader["SubCategoryId"]);
+                        var subCategory = SubCategoryController.GetSubCategoryById(ticket.SubCategoryId);
+                        ticket.SubCategory = subCategory;
 
                         ticket.PeriodId = Convert.ToInt32(reader["PeriodId"]);
                         var period = PeriodController.GetPeriodById(ticket.PeriodId);
@@ -401,6 +424,10 @@ namespace OnlineHelpDesk.Controllers
                         ticket.CategoryId = Convert.ToInt32(reader["CategoryId"]);
                         var category = CategoryController.GetCategoryById(ticket.CategoryId);
                         ticket.Category = category;
+
+                        ticket.SubCategoryId = Convert.ToInt32(reader["SubCategoryId"]);
+                        var subCategory = SubCategoryController.GetSubCategoryById(ticket.SubCategoryId);
+                        ticket.SubCategory = subCategory;
 
                         ticket.PeriodId = Convert.ToInt32(reader["PeriodId"]);
                         var period = PeriodController.GetPeriodById(ticket.PeriodId);
@@ -462,6 +489,10 @@ namespace OnlineHelpDesk.Controllers
                         var category = CategoryController.GetCategoryById(ticket.CategoryId);
                         ticket.Category = category;
 
+                        ticket.SubCategoryId = Convert.ToInt32(reader["SubCategoryId"]);
+                        var subCategory = SubCategoryController.GetSubCategoryById(ticket.SubCategoryId);
+                        ticket.SubCategory = subCategory;
+
                         ticket.PeriodId = Convert.ToInt32(reader["PeriodId"]);
                         var period = PeriodController.GetPeriodById(ticket.PeriodId);
                         ticket.Period = period;
@@ -521,6 +552,10 @@ namespace OnlineHelpDesk.Controllers
                         ticket.CategoryId = Convert.ToInt32(reader["CategoryId"]);
                         var category = CategoryController.GetCategoryById(ticket.CategoryId);
                         ticket.Category = category;
+
+                        ticket.SubCategoryId = Convert.ToInt32(reader["SubCategoryId"]);
+                        var subCategory = SubCategoryController.GetSubCategoryById(ticket.SubCategoryId);
+                        ticket.SubCategory = subCategory;
 
                         ticket.PeriodId = Convert.ToInt32(reader["PeriodId"]);
                         var period = PeriodController.GetPeriodById(ticket.PeriodId);
@@ -582,6 +617,10 @@ namespace OnlineHelpDesk.Controllers
                         var category = CategoryController.GetCategoryById(ticket.CategoryId);
                         ticket.Category = category;
 
+                        ticket.SubCategoryId = Convert.ToInt32(reader["SubCategoryId"]);
+                        var subCategory = SubCategoryController.GetSubCategoryById(ticket.SubCategoryId);
+                        ticket.SubCategory = subCategory;
+
                         ticket.PeriodId = Convert.ToInt32(reader["PeriodId"]);
                         var period = PeriodController.GetPeriodById(ticket.PeriodId);
                         ticket.Period = period;
@@ -640,6 +679,9 @@ namespace OnlineHelpDesk.Controllers
                         ticket.CategoryId = Convert.ToInt32(reader["CategoryId"]);
                         ticket.Category = CategoryController.GetCategoryById(ticket.CategoryId);
 
+                        ticket.SubCategoryId = Convert.ToInt32(reader["SubCategoryId"]);
+                        ticket.SubCategory = SubCategoryController.GetSubCategoryById(ticket.SubCategoryId);
+
                         ticket.PeriodId = Convert.ToInt32(reader["PeriodId"]);
                         ticket.Period = PeriodController.GetPeriodById(ticket.PeriodId);
 
@@ -681,6 +723,7 @@ namespace OnlineHelpDesk.Controllers
 	                                                            Description = @description,
                                                                 StatusId = @statusId,
                                                                 CategoryId = @categoryId,
+                                                                SubCategoryId = @subCategoryId,
                                                                 PeriodId = @periodId,
                                                                 EmployeeId = @employeeId,
                                                                 SupporterId = @supporterId
@@ -690,6 +733,7 @@ namespace OnlineHelpDesk.Controllers
                 command.Parameters.AddWithValue("@description", _ticket.Description);
                 command.Parameters.AddWithValue("@statusId", _ticket.StatusId);
                 command.Parameters.AddWithValue("@categoryId", _ticket.CategoryId);
+                command.Parameters.AddWithValue("@subCategoryId", _ticket.SubCategoryId);
                 command.Parameters.AddWithValue("@periodId", _ticket.PeriodId);
                 command.Parameters.AddWithValue("@employeeId", _ticket.EmployeeId);
                 command.Parameters.AddWithValue("@supporterId", _ticket.SupporterId);

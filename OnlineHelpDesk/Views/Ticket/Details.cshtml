@@ -43,7 +43,7 @@
             <div class="col-sm-4 invoice-col">
                 <b>Ticket Id #@ViewBag.ticket.TicketId</b><br>
                 <b>Created Date:</b> @ViewBag.ticket.CreatedDate.ToString("dd/MM/yyyy")<br>
-                @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrator") || User.IsInRole("Support")))
+                @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrator")))
                 {
                     <select name="statusId">
                         @foreach (var status in ViewBag.statuses)
@@ -90,7 +90,7 @@
             </div>
         </div>
 
-        @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrator") || User.IsInRole("Support")))
+        @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrator")))
         {
             <div class="row no-print">
                 <div class="col-xs-12">

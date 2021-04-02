@@ -156,3 +156,6 @@ C:\Users\jonat\Documents\Visual Studio 2019\Projects\OnlineHelpDesk\OnlineHelpDe
 C:\Users\jonat\Documents\Visual Studio 2019\Projects\OnlineHelpDesk\OnlineHelpDesk\obj\Debug\net5.0\Razor\Views\Ticket\Assign.cshtml.g.cs
 C:\Users\jonat\Documents\Visual Studio 2019\Projects\OnlineHelpDesk\OnlineHelpDesk\obj\Debug\net5.0\Razor\Views\Ticket\Details.cshtml.g.cs
 C:\Users\jonat\Documents\Visual Studio 2019\Projects\OnlineHelpDesk\OnlineHelpDesk\obj\Debug\net5.0\Razor\Views\Ticket\Assigned.cshtml.g.cs
+C:\Users\jonat\Documents\Visual Studio 2019\Projects\OnlineHelpDesk\OnlineHelpDesk\obj\Debug\net5.0\Razor\Views\SubCategory\Add.cshtml.g.cs
+C:\Users\jonat\Documents\Visual Studio 2019\Projects\OnlineHelpDesk\OnlineHelpDesk\obj\Debug\net5.0\Razor\Views\SubCategory\Edit.cshtml.g.cs
+C:\Users\jonat\Documents\Visual Studio 2019\Projects\OnlineHelpDesk\OnlineHelpDesk\obj\Debug\net5.0\Razor\Views\SubCategory\Index.cshtml.g.cs

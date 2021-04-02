@@ -73,6 +73,7 @@ namespace OnlineHelpDesk.Controllers
 
                 if (delete)
                 {
+                    ViewBag.sideBar = "status";
                     ViewBag.msg = "Done";
                     return RedirectToAction("Index");
                 }
